@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from utils.logger import setup_logger
 from core.config import MAX_WORKERS
 from utils.converter import convert_to_pdf, convert_to_cbz
+from natsort import natsorted
 
 logger = setup_logger(__name__)
 
@@ -102,7 +103,7 @@ def download_images_batch(images_data: List[tuple], format_choice: str, delete_o
         for chapter_folder in downloaded_chapter_folders:
             try:
                 chapter_name = os.path.basename(chapter_folder)
-                image_files = [os.path.join(chapter_folder, f) for f in sorted(os.listdir(chapter_folder)) if f.endswith(('.jpg', '.png', '.jpeg'))]
+                image_files = [os.path.join(chapter_folder, f) for f in natsorted(os.listdir(chapter_folder)) if f.endswith(('.jpg', '.png', '.jpeg'))]
                 if not image_files:
                     continue
 
